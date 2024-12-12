@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require('express');
-
-const usersRoutes = require('./routes/usersRoutes')
-const middlewareLogRequest = require('./middleware/usersMiddleware')
+const usersRoutes = require('./routes/usersRoutes');
+const middlewareLogRequest = require('./middleware/usersMiddleware');
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -11,6 +12,6 @@ app.use(express.json());
 app.use('/users', usersRoutes);
 
 
-app.listen(3000, () => {
-  console.log('Server running on PORT:3000');
+app.listen(PORT, () => {
+  console.log(`Server running on PORT: ${PORT}`);
 })

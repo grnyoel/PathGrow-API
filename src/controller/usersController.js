@@ -1,84 +1,67 @@
-const usersModel = require('../model/usersModel')
+const usersModel = require('../model/usersModel');
 
 const getAllUsers = async (req, res) => {
   try {
     const [data] = await usersModel.getAllUsers();
-  
     res.json({
-      message: 'GET All Users success',
-      data: data
-    })
+      message: 'GET All Users success', data
+    });
   } catch (error) {
+    console.error('Error fetching users:', error);
     res.status(500).json({
-      message: 'Server ERROR',
-      serverMessage: error,
-    })
+      message: 'Internal Server Error'
+    });
   }
-}
-
-const createNewUser = async (req, res) => {
-  const { body } = req;
-
-  if (!body.name || !body.username || !body.email || !body.password) {
-    return res.status(400).json({
-      message: 'Please fill in all fields correctly',
-      data: null,
-    })
-  }
-
-  try {
-    await usersModel.createNewUser(body);
-    res.status(201).json({
-      message: 'CREATE New User success',
-      data: body
-    })
-  } catch (error) {
-    res.status(500).json({
-      message: 'Server ERROR',
-      serverMessage: error,
-    })
-  }
-}
+};
 
 const updateUser = async (req, res) => {
   const { userID } = req.params;
-  const { body } = req;
-  try {
-    await usersModel.updateUser(body, userID);
-    res.json({
-      message: 'UPDATE User success',
-      data: {
-        id: userID,
-        ...body
-      }
-    })
-  } catch (error) {
-    res.status(500).json({
-      message: 'Server ERROR',
-      serverMessage: error,
-    })
+  const { name, username } = req.body;
+
+  if (!name && !username) {
+    return res.status(400).json({
+      message: 'At least one field (name or username) is required to update.'
+    });
   }
-}
+
+  try {
+    const [result] = await usersModel.updateUser({ name, username }, userID);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'User not found.'
+      });
+    }
+
+    res.json({ message: 'UPDATE User success', data: { id: userID, name, username } });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({
+      message: 'Internal Server Error'
+    });
+  }
+};
 
 const deleteUser = async (req, res) => {
   const { userID } = req.params;
   try {
-    await usersModel.deleteUser(userID);
-    res.json({
-      message: 'DELETE User success',
-      data: null
-    })
+    const [result] = await usersModel.deleteUser(userID);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({
+        message: 'User not found.'
+      });
+    }
+
+    res.json({ message: 'DELETE User success' });
   } catch (error) {
+    console.error('Error deleting user:', error);
     res.status(500).json({
-      message: 'Server ERROR',
-      serverMessage: error,
-    })
+      message: 'Internal Server Error'
+    });
   }
-}
+};
 
 module.exports = {
   getAllUsers,
-  createNewUser,
   updateUser,
   deleteUser,
-}
+};

@@ -1,144 +1,57 @@
 # PathGrow API
 
-Back-End Development for PathGrow Application
+This is a backend server for PathGrow web applicataion using Express.js and MySQL.
 
-## Table of Contents
-- [Installation](#installation)
-- [Endpoints](#endpoints)
-- [Authentication](#authentication)
-- [Technologies](#technologies)
-- [Author](#author)
+#### Install dependencies
 
-## Installation
+```bash
+  npm install
+```
 
-### Prerequisites
-- Node.js (v14 or higher)
-- npm or yarn
-- PostgreSQL (or your preferred database)
+#### `.env` File
+Create a `.env` file in the root directory of your project. This file will hold all the environment-specific configurations for the application.
 
-### Setup
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/grnyoel/PathGrow-API.git
+| Name          | Variable                                                                          |
+| :------------ | :-------------------------------------------------------------------------------- |
+| PORT          | `PORT`                                                                            |
+| MySQL         | `DB_HOST` `DB_USER` `DB_PASSWORD` `DB_NAME`                                   |
 
-2. Navigate to the project directory::
-    ```bash
-    cd PathGrow-API
+#### Example `.env` File
 
-3. Install the dependencies:
-    ```bash
-    npm install
+You can use the following as a template for your `.env` file:
 
-4. Set up environment variables:
-   - Rename the .env.example file to .env
-   - Update the .env file with your database configuration and other secrets.
+```env
+PORT=xxxx
 
-5. Start the development server:
-    ```bash
-    npm run dev
+# MySQL Database Configuration
+DB_HOST=xxxx
+DB_USERNAME=xxxx
+DB_PASSWORD=xxxx
+DB_NAME=xxxx
 
-The API will be running on http://localhost:5000 (or the port specified in your .env file).
+```
+**Note**: Replace the placeholder values (`xxxx`) with your actual configuration details. Make sure not to commit your `.env` file to version control to keep your credentials secure.
 
-## Endpoints
+- `PORT`: your server to listening to `PORT` you specify in here
+- `DB_HOST`: your Database IP Address
+- `DB_USER`: your database user name
+- `DB_PASSWORD`: your database password
+- `DB_NAME`: your database name
 
-### Authentication
+You can see the example of the `.env` file in the `env.example` file included in the root folder of the project.
 
-- #### POST `auth/register`
+## Run Local
 
-  Registers new user.
+After you install the dependencies and set the environment variables, you can start the server by running
 
-  #### Request body:
+```bash
+  npm run start
+```
 
-  ```json
-  {
-  "username": "exampleGerent",
-  "email": "gerent@example.com",
-  "password": "password123"
-  }
-  ```
-  #### Response:
-  ```json
-  {
-  "message": "User registered successfully",
-  "user": { "id": 1, "username": "exampleGerent", "email": "gerent@example.com" }
-  }
-  ```
-- #### POST `auth/login`
+## Documentation📝
 
-  Logs in an existing user and return a JWT Token
+[API Documentation](https://documenter.getpostman.com/view/28687808/2sAYHzFNdV)
 
-  #### Request body:
-  ```json
-  {
-  "email": "gerent@example.com",
-  "password": "password123"
-  }
-  ```
-  #### Response:
-  ```json
-  {
-  "token": "your-jwt-token"
-  }
-  ```
+## Author 👥
 
-### Users
-
-- #### GET`users/me`
-
-  Retrieves the current logged-in user's profile information.
-
-  #### Headers:
-  ```bash
-  Authorization: Bearer <your-token>
-  ```
-  #### Response:
-  ```json
-  {
-    "id": 1,
-    "username": "exampleGerent",
-    "email": "gerent@example.com"
-  }
-  ```
-- #### PUT `users/update`
-
-  Updates the current logged-in user's profile information.
-
-  #### Headers:
-  ```bash
-  Authorization: Bearer <your-token>
-  ```
-  #### Request body:
-  ```json
-  {
-    "username": "newUsername",
-    "email": "newEmail@example.com"
-  }
-  ```
-
-  #### Response:
-  ```json
-  {
-  "message": "User updated successfully",
-  "user": { "id": 1, "username": "newUsername", "email": "newEmail@example.com" }
-  }
-  ```
-
-## Authentication
-The API uses JWT (JSON Web Tokens) for authentication. After logging in, a token will be returned, which should be included in the Authorization header of all protected routes.
-
-Example:
-  ```bash
-  Authorization: Bearer <your-token>
-  ```
-
-## Technologies 💻
-- Node.js
-- Express.js
-- PostgreSQL (or another database of choice)
-- JWT for authentication
-- dotenv for environment variables
-- bcryptjs for password hashing
-
-## Author 🧑‍💻
-
-[Gerent Yoel Mamahani](https://github.com/grnyoel)
+- [@grnyoel](https://www.github.com/grnyoel)
